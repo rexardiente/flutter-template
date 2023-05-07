@@ -15,6 +15,10 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+## Flutter WebView
+
+version 2.0.13
+
 ## Run App (macOS Development)
 
 Run following command in terminal to launch a simulator.
