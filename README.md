@@ -15,8 +15,12 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-## Run App
+## Run App (macOS Development)
+
+Run following command in terminal to launch a simulator.
 
 ```
+$ open -a simulator
+// run app
 $ flutter run
 ```
