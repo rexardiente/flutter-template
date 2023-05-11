@@ -28,3 +28,12 @@ $ open -a simulator
 // run app
 $ flutter run
 ```
+
+## Build Android APK
+
+```
+// generate installable apk file
+$ flutter build apk --split-per-abi --no-shrink
+// creates app bundles for publishing
+$ flutter build appbundle
+```

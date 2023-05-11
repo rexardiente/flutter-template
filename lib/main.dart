@@ -1,15 +1,8 @@
-// ignore_for_file: public_member_api_docs
-import 'dart:async';
-// import 'dart:ffi';
 import 'dart:io';
-// import 'dart:convert';
-// import 'dart:io';
-// import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 // Import for Android features.
-// import 'package:webview_flutter_android/webview_flutter_android.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -28,7 +21,7 @@ class MyWebView extends StatefulWidget {
 
 class _WebViewAppState extends State<MyWebView> {
   var loadingPercentage = 0;
-  final loadingAnimation = 4;
+  final loadingAnimation = 1;
   late final WebViewController controller;
 
   @override
@@ -81,9 +74,9 @@ class _WebViewAppState extends State<MyWebView> {
           //   centerTitle: true,
           // ),
           body: FutureBuilder(
-            future: Future.delayed(Duration(seconds: loadingAnimation), () {
-              return loadingPercentage;
-            }),
+            // future: Future.delayed(Duration(seconds: loadingAnimation), () {
+            //   return loadingPercentage;
+            // }),
             builder: (context, snapshot) {
               return SafeArea(
                 child: loadingPercentage == 100
@@ -92,26 +85,75 @@ class _WebViewAppState extends State<MyWebView> {
                       )
                     : Center(
                         // check if platform is Android or IOS
-                        child: Platform.isAndroid
-                            ? TweenAnimationBuilder<double>(
-                                tween: Tween<double>(
-                                    begin: 0.0,
-                                    end: loadingAnimation.toDouble()),
-                                duration: const Duration(milliseconds: 3500),
-                                builder: (context, value, _) =>
-                                    CircularProgressIndicator(value: value),
-                              )
-                            : const CupertinoActivityIndicator(),
+                        child: TweenAnimationBuilder<double>(
+                          tween: Tween<double>(
+                              begin: 0.0, end: loadingAnimation.toDouble()),
+                          duration: const Duration(seconds: 3),
+                          curve: Curves.easeOut,
+                          builder: (BuildContext buildContext, double? value,
+                              Widget? child) {
+                            // Desired width and height for the image and CircularProgressIndicator
+                            const double imageSize = 100.0;
+                            return SizedBox(
+                              width: imageSize,
+                              height: imageSize,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  // Image widget with opacity controlled by the tween
+                                  Opacity(
+                                    // Note: opacity wont allow > 1.0 or < 0.0
+                                    opacity: value != null &&
+                                            value >= 0.0 &&
+                                            value <= 1.0
+                                        ? value
+                                        : 0.0,
+                                    child: Image.asset(
+                                      'assets/chatgpt_icon.png',
+                                      width: imageSize,
+                                      height: imageSize,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  // use aspect ratio 1-1 to make square
+                                  // TweenAnimationBuilder<double>(
+                                  //   tween: Tween<double>(
+                                  //       begin: 0.0,
+                                  //       end: loadingAnimation.toDouble()),
+                                  //   duration: const Duration(seconds: 3),
+                                  //   builder: (context, value, _) => SizedBox(
+                                  //     width: imageSize,
+                                  //     height: imageSize,
+                                  //     child: Opacity(
+                                  //       opacity: value >= 0.0 && value <= 1.0
+                                  //           ? value
+                                  //           : 0.0,
+                                  //       child: Platform.isAndroid
+                                  //           ? CircularProgressIndicator(
+                                  //               color: const Color.fromARGB(
+                                  //                   255, 22, 162, 127),
+                                  //               value: value)
+                                  //           : CupertinoActivityIndicator(
+                                  //               color: Colors.green[700],
+                                  //             ),
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                       ),
               );
             },
           ),
         ),
-        if (loadingPercentage < 100)
-          LinearProgressIndicator(
-            minHeight: 5,
-            value: loadingPercentage / 100.0,
-          ),
+        // if (loadingPercentage < 100)
+        //   LinearProgressIndicator(
+        //     minHeight: 5,
+        //     value: loadingPercentage / 100.0,
+        //   ),
       ],
     );
   }
